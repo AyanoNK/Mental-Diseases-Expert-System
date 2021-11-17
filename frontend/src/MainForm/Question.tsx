@@ -22,7 +22,7 @@ const Question: FC<Props> = ({ questionText, question, setOptions }) => {
         [question]: answer,
       }));
     }
-  }, [answer, question]);
+  }, [answer, question, setOptions]);
 
   const handleButton = (ans: boolean) => {
     setAnswer(ans);
