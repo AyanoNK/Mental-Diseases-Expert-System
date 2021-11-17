@@ -1,25 +1,33 @@
-import logo from './logo.svg';
-import './App.css';
+import { makeStyles } from "@mui/styles";
+import { Box } from "@mui/system";
+import MainForm from "./MainForm";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+/*
+Palette: {
+  black: #000000,
+  flame: #CF5C36, 
+  lavender: #EEE5E9, this is background
+  gray: #7C7C7C,
+  gold: #EFC88B
 }
+*/
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    backgroundColor: theme.palette.background.main,
+    width: "100%",
+    height: "100vh",
+    position: "absolute",
+  },
+}));
+
+const App = () => {
+  const classes = useStyles();
+  return (
+    <Box className={classes.root}>
+      <MainForm />
+    </Box>
+  );
+};
 
 export default App;
