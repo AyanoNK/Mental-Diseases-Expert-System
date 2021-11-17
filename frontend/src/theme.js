@@ -22,7 +22,9 @@ const theme = createTheme({
       main: red.A400,
     },
     grey: "#7C7C7C",
-    black: "#000000",
+    black: {
+      main: "#000000",
+    },
     background: {
       main: "#EEE5E9",
     },

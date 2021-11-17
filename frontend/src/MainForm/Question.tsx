@@ -1,8 +1,9 @@
 import { Button, Grid, Typography } from "@mui/material";
 import { makeStyles } from "@mui/styles";
+
 import React, { FC, useEffect, useState } from "react";
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
   root: {},
 }));
 
@@ -29,21 +30,29 @@ const Question: FC<Props> = ({ questionText, question, setOptions }) => {
   };
 
   return (
-    <Grid container direction="column" className={classes.root}>
+    <Grid container direction="column" className={classes.root} mb={3}>
       <Grid item xs={12}>
-        <Typography variant="h6" align="center">
+        <Typography variant="h5" align="center">
           {questionText}
         </Typography>
       </Grid>
-      <Grid item xs={12}>
+      <Grid item xs={12} mt={2}>
         <Grid container direction="row" justifyContent="center" spacing={2}>
-          <Grid item xs={6}>
-            <Button onClick={() => handleButton(false)}>
+          <Grid item>
+            <Button
+              onClick={() => handleButton(false)}
+              color="secondary"
+              variant="outlined"
+            >
               <Typography variant="body1">No</Typography>
             </Button>
           </Grid>
-          <Grid item xs={6}>
-            <Button onClick={() => handleButton(true)}>
+          <Grid item>
+            <Button
+              onClick={() => handleButton(true)}
+              color="secondary"
+              variant="outlined"
+            >
               <Typography variant="body1">Sí</Typography>
             </Button>
           </Grid>

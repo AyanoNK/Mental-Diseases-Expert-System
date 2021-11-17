@@ -27,7 +27,7 @@ const MainForm: FC<Props> = (props) => {
         </Grid>
       </Box>
       <Grid container justifyContent="center">
-        <Grid item xs={6}>
+        <Grid item xs={6} mb={5}>
           <Card className={classes.card}>
             <CardContent>
               <Form />
