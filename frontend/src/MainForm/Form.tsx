@@ -137,6 +137,13 @@ const Form: FC<Props> = () => {
             setOptions={setOptions}
           />
         </Grid>
+        <Grid item xs={12}>
+          <Question
+            questionText="¿Estos síntomas han deteriorado notablemente su funcionamiento normal?"
+            question="question_13"
+            setOptions={setOptions}
+          />
+        </Grid>
         {response !== null && "Enfermedad" in response && (
           <Grid item xs={12}>
             <Typography>{response.Enfermedad}</Typography>
