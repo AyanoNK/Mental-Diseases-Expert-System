@@ -13,7 +13,7 @@ CORS(app)
 # 400 Bad Request
 # 500 Internal Server Error <- error suyo
 
-@app.route('/', methods=['GET'])
+@app.route('/', methods=['POST'])
 def entry_point():
     content = request.get_json(silent=True)
     # revisar que por lo menos una pregunta sea verdadera
@@ -22,45 +22,64 @@ def entry_point():
         "Enfermedad": None
     }
 
-    if content is None:
-        return Response("gonorrea", status=400, mimetype='application/json')
-    else:
-        if content['question_1']:
-            if content['question_2']:
-                answer["Enfermedad"] = "Psicosis derivada de una condición médica general"
-            elif content['question_3']:
-                answer["Enfermedad"] = "Psicosis inducina por sustancias"
+    if content is None or not content:
+        return Response("No hay datos.", status=400, mimetype='application/json')
 
-            # Las preguntas question_7 a question_10 ya implican que question_4 es verdadero
-            if content['question_7'] is False or content['question_9']:
-                if content['question_8']:
-                    answer["Enfermedad"] = "Esquizofrenia"
-                else:
-                    answer["Enfermedad"] = "Trastorno esquizofreniforme"
-            elif content['question_9'] is False:
-                if content['question_10']:  # question_7: dos semanas de psicosis positiva
-                    answer["Enfermedad"] = "Trastorno psicoafectivo"
-                else:
-                    answer["Enfermedad"] = "Trastorno del estado de ánimo con psicosis"
+    questions = [
+        'question_1',
+        'question_2',
+        'question_3',
+        'question_4',
+        'question_5',
+        'question_6',
+        'question_7',
+        'question_8',
+        'question_9',
+        'question_10',
+        'question_11',
+        'question_12',
+        'question_13'
+    ]
 
-            # Las preguntas question_11 a question_13 ya implican que question_5 es verdadero
-            if content['question_11']:
-                if content['question_13']:
-                    answer["Enfermedad"] = "Trastorno delirante"
-                else:
-                    answer["Enfermedad"] = "Psicosis sin especificar"
+    if not all([True if item in content else False for item in questions]):
+        return Response("Faltan datos.", status=400, mimetype='application/json')
+
+    if content['question_1']:
+        if content['question_2']:
+            answer["Enfermedad"] = "Psicosis derivada de una condición médica general"
+        elif content['question_3']:
+            answer["Enfermedad"] = "Psicosis inducina por sustancias"
+
+        # Las preguntas question_7 a question_10 ya implican que question_4 es verdadero
+        if content['question_7'] is False or content['question_9']:
+            if content['question_8']:
+                answer["Enfermedad"] = "Esquizofrenia"
             else:
-                if content['question_12']:
-                    answer["Enfermedad"] = "Trastorno del estado de ánimo con psicosis"
-                else:
-                    answer["Enfermedad"] = "Psicosis sin especificar"
+                answer["Enfermedad"] = "Trastorno esquizofreniforme"
+        elif content['question_9'] is False:
+            if content['question_10']:  # question_7: dos semanas de psicosis positiva
+                answer["Enfermedad"] = "Trastorno psicoafectivo"
+            else:
+                answer["Enfermedad"] = "Trastorno del estado de ánimo con psicosis"
 
-            if content['question_6']:
-                answer["Enfermedad"] = "Trastorno de psicosis breve"
+        # Las preguntas question_11 a question_13 ya implican que question_5 es verdadero
+        if content['question_11']:
+            if content['question_13']:
+                answer["Enfermedad"] = "Trastorno delirante"
             else:
                 answer["Enfermedad"] = "Psicosis sin especificar"
         else:
-            answer["Enfermedad"] = "No aplica"
+            if content['question_12']:
+                answer["Enfermedad"] = "Trastorno del estado de ánimo con psicosis"
+            else:
+                answer["Enfermedad"] = "Psicosis sin especificar"
+
+        if content['question_6']:
+            answer["Enfermedad"] = "Trastorno de psicosis breve"
+        else:
+            answer["Enfermedad"] = "Psicosis sin especificar"
+    else:
+        answer["Enfermedad"] = "No aplica"
     return answer
 
 
