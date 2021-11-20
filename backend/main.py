@@ -18,7 +18,9 @@ def entry_point():
     content = request.get_json(silent=True)
     # revisar que por lo menos una pregunta sea verdadera
 
-    answer = {"Enfermedad" : None}
+    answer = {
+        "Enfermedad": None
+    }
 
     if content is None:
         return Response("gonorrea", status=400, mimetype='application/json')
@@ -29,19 +31,19 @@ def entry_point():
             elif content['question_3']:
                 answer["Enfermedad"] = "Psicosis inducina por sustancias"
 
-            # Las preguntas question_7 a question_10 ya implican que question_4 es verdadero 
+            # Las preguntas question_7 a question_10 ya implican que question_4 es verdadero
             if content['question_7'] is False or content['question_9']:
                 if content['question_8']:
                     answer["Enfermedad"] = "Esquizofrenia"
                 else:
                     answer["Enfermedad"] = "Trastorno esquizofreniforme"
-            elif content['question_9'] is False :
-                if content['question_10']: # question_7: dos semanas de psicosis positiva
+            elif content['question_9'] is False:
+                if content['question_10']:  # question_7: dos semanas de psicosis positiva
                     answer["Enfermedad"] = "Trastorno psicoafectivo"
                 else:
                     answer["Enfermedad"] = "Trastorno del estado de ánimo con psicosis"
 
-            # Las preguntas question_11 a question_13 ya implican que question_5 es verdadero 
+            # Las preguntas question_11 a question_13 ya implican que question_5 es verdadero
             if content['question_11']:
                 if content['question_13']:
                     answer["Enfermedad"] = "Trastorno delirante"
