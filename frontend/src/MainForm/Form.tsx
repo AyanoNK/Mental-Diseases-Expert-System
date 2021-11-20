@@ -1,5 +1,5 @@
-import { Grid, Typography } from "@mui/material";
-import React, { FC, useEffect, useState } from "react";
+import { Button, Grid, Typography } from "@mui/material";
+import React, { FC, useCallback, useEffect, useState } from "react";
 import Question from "./Question";
 
 type Props = {};
@@ -16,35 +16,36 @@ type Questions = {
   question_10: boolean | null;
   question_11: boolean | null;
   question_12: boolean | null;
+  question_13: boolean | null;
 };
 const Form: FC<Props> = () => {
+  const [response, setResponse] = useState<any>(null);
   const [options, setOptions] = useState<Questions>({
-    question_1: null,
-    question_2: null,
-    question_3: null,
-    question_4: null,
-    question_5: null,
-    question_6: null,
-    question_7: null,
-    question_8: null,
-    question_9: null,
-    question_10: null,
-    question_11: null,
-    question_12: null,
+    question_1: false,
+    question_2: false,
+    question_3: false,
+    question_4: false,
+    question_5: false,
+    question_6: false,
+    question_7: false,
+    question_8: false,
+    question_9: false,
+    question_10: false,
+    question_11: false,
+    question_12: false,
+    question_13: false,
   });
 
-  const [response, setResponse] = useState<any>(null);
-
-  const onSubmit = async () => {
-    await fetch("https://b6cb-190-27-101-255.ngrok.io/")
-      .then((response) => setResponse(response))
-      .catch((error) => setResponse(error));
-  };
-
-  useEffect(() => {
-    if (options.question_1 === false) {
-      onSubmit();
-    }
+  // ts-ignore
+  const onSubmit = useCallback(async () => {
+    const opt = {
+      method: "POST",
+      body: JSON.stringify(options),
+    };
+    await fetch("https://bedb-201-244-32-19.ngrok.io", opt)
+      .then((res) => res.json())
+      .then((data) => setResponse(data))
+      .catch((err) => console.log(err));
   }, [options]);
 
   return (
@@ -67,6 +68,7 @@ const Form: FC<Props> = () => {
             />
           </Grid>
         )}
+
         <Grid item xs={12}>
           <Question
             questionText="¿Son derivados directamente de los efectos de una sustancia (medicación, drogas ilícitas, toxinas)?"
@@ -144,12 +146,15 @@ const Form: FC<Props> = () => {
             setOptions={setOptions}
           />
         </Grid>
-        {response !== null && "Enfermedad" in response && (
-          <Grid item xs={12}>
-            <Typography>{response.Enfermedad}</Typography>
-          </Grid>
-        )}
       </form>
+      <Button type="submit" onClick={onSubmit}>
+        <Typography variant="h6">Submit</Typography>
+      </Button>
+      {response !== null && (
+        <Grid item xs={12} mt={3}>
+          <Typography align="center">{response.Enfermedad}</Typography>
+        </Grid>
+      )}
     </Grid>
   );
 };

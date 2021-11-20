@@ -1,7 +1,8 @@
 #!/usr/bin/python
 # coding: utf-8
-from flask import Flask, request, Response
+from flask import Flask, request, Response, jsonify
 from flask_cors import CORS
+import json
 
 
 app = Flask(__name__)
@@ -15,15 +16,16 @@ CORS(app)
 
 @app.route('/', methods=['POST'])
 def entry_point():
-    content = request.get_json(silent=True)
-    # revisar que por lo menos una pregunta sea verdadera
+    content = request.data.decode("UTF-8")
 
+    content = json.loads(content)
+    # revisar que por lo menos una pregunta sea verdadera
     answer = {
         "Enfermedad": None
     }
 
     if content is None or not content:
-        return Response("No hay datos.", status=400, mimetype='application/json')
+        return jsonify(Enfermedad='No hay datos.')
 
     questions = [
         'question_1',
@@ -42,7 +44,7 @@ def entry_point():
     ]
 
     if not all([True if item in content else False for item in questions]):
-        return Response("Faltan datos.", status=400, mimetype='application/json')
+        return jsonify(Error="Faltan datos.")
 
     if content['question_1']:
         if content['question_2']:
@@ -80,7 +82,7 @@ def entry_point():
             answer["Enfermedad"] = "Psicosis sin especificar"
     else:
         answer["Enfermedad"] = "No aplica"
-    return answer
+    return {'Enfermedad': answer["Enfermedad"]}
 
 
 if __name__ == '__main__':
