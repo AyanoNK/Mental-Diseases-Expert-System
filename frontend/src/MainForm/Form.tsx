@@ -65,87 +65,105 @@ const Form: FC<Props> = () => {
               questionText="¿Son derivados directamente de los efectos fisiológicos de una condición médica?"
               question="question_2"
               setOptions={setOptions}
+              />
+          </Grid>
+        )}
+        {!options.question_2 && (
+          <Grid item xs={12}>
+            <Question
+              questionText="¿Son derivados directamente de los efectos de una sustancia (medicación, drogas ilícitas, toxinas)?"
+              question="question_3"
+              setOptions={setOptions}
             />
           </Grid>
         )}
-
-        <Grid item xs={12}>
-          <Question
-            questionText="¿Son derivados directamente de los efectos de una sustancia (medicación, drogas ilícitas, toxinas)?"
-            question="question_3"
-            setOptions={setOptions}
-          />
-        </Grid>
-        <Grid item xs={12}>
+        {!options.question_3 && (
+          <Grid item xs={12}>
           <Question
             questionText="¿Cumple con los criterios asociados a la esquizofrenia A durante un mes de funcionamiento?"
             question="question_4"
             setOptions={setOptions}
           />
-        </Grid>
-        <Grid item xs={12}>
-          <Question
-            questionText="¿Tiene delirios comunes durante un mes?"
-            question="question_5"
-            setOptions={setOptions}
-          />
-        </Grid>
-        <Grid item xs={12}>
-          <Question
-            questionText="¿Tiene delirios comunes más de un día y menos de un mes?"
-            question="question_6"
-            setOptions={setOptions}
-          />
-        </Grid>
-        <Grid item xs={12}>
-          <Question
-            questionText="¿Tiene manía o depresión mayor con psicósis?"
-            question="question_7"
-            setOptions={setOptions}
-          />
-        </Grid>
-        <Grid item xs={12}>
-          <Question
-            questionText="¿Cumple con los criterios asociados a la esquizofrenia A durante seis meses de duración?"
-            question="question_8"
-            setOptions={setOptions}
-          />
-        </Grid>
-        <Grid item xs={12}>
-          <Question
-            questionText="¿Todos los periodos de episodios anímicos son breves en comparación con los relacionados con la psicosis?"
-            question="question_9"
-            setOptions={setOptions}
-          />
-        </Grid>
-        <Grid item xs={12}>
-          <Question
-            questionText="¿Presenta dos semanas de psicosis positiva sin problemas aníminos prominentes?"
-            question="question_10"
-            setOptions={setOptions}
-          />
-        </Grid>
-        <Grid item xs={12}>
-          <Question
-            questionText="¿Presenta episodios anímicos breves comparados con los delirios?"
-            question="question_11"
-            setOptions={setOptions}
-          />
-        </Grid>
-        <Grid item xs={12}>
-          <Question
-            questionText="¿Presenta delirios sólo durante la alteración del estado anímico?"
-            question="question_12"
-            setOptions={setOptions}
-          />
-        </Grid>
-        <Grid item xs={12}>
-          <Question
-            questionText="¿Estos síntomas han deteriorado notablemente su funcionamiento normal?"
-            question="question_13"
-            setOptions={setOptions}
-          />
-        </Grid>
+          </Grid>
+        )}
+        {!options.question_4 ? (
+          <Grid item xs={12}>
+            <Question
+              questionText="¿Tiene manía o depresión mayor con psicósis?"
+              question="question_7"
+              setOptions={setOptions}
+              />
+          </Grid>
+        ) : (
+          <Grid item xs={12}>
+            <Question
+              questionText="¿Tiene delirios comunes durante un mes?"
+              question="question_5"
+              setOptions={setOptions}
+              />
+          </Grid>
+        )}
+        {options.question_5 ? (
+          <Grid item xs={12}>
+            <Question
+              questionText="¿Tiene delirios comunes más de un día y menos de un mes?"
+              question="question_6"
+              setOptions={setOptions}
+            />
+          </Grid>
+        ):(
+          <Grid item xs={12}>
+            <Question
+              questionText="¿Presenta episodios anímicos breves comparados con los delirios?"
+              question="question_11"
+              setOptions={setOptions}
+            />
+          </Grid>
+        )}
+        {options.question_11 ? (
+          <Grid item xs={12}>
+            <Question
+              questionText="¿Presenta delirios sólo durante la alteración del estado anímico?"
+              question="question_12"
+              setOptions={setOptions}
+            />
+          </Grid>
+        ):(
+          <Grid item xs={12}>
+            <Question
+              questionText="¿Estos síntomas han deteriorado notablemente su funcionamiento normal?"
+              question="question_13"
+              setOptions={setOptions}
+            />
+          </Grid>
+        )}
+        {options.question_7 && (
+          <Grid item xs={12}>
+            <Question
+              questionText="¿Todos los periodos de episodios anímicos son breves en comparación con los relacionados con la psicosis?"
+              question="question_9"
+              setOptions={setOptions}
+            />
+          </Grid>
+        )}
+        {!options.question_7 || options.question_9 && (
+          <Grid item xs={12}>
+            <Question
+              questionText="¿Cumple con los criterios asociados a la esquizofrenia A durante seis meses de duración?"
+              question="question_8"
+              setOptions={setOptions}
+            />
+          </Grid>
+        )}
+        {!options.question_9 && (
+          <Grid item xs={12}>
+            <Question
+              questionText="¿Presenta dos semanas de psicosis positiva sin problemas aníminos prominentes?"
+              question="question_10"
+              setOptions={setOptions}
+            />
+          </Grid>
+        )}
       </form>
       <Button type="submit" onClick={onSubmit}>
         <Typography variant="h6">Submit</Typography>
