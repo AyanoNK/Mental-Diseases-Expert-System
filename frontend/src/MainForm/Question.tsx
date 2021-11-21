@@ -42,7 +42,7 @@ const Question: FC<Props> = ({ questionText, question, setOptions }) => {
             <Button
               onClick={() => handleButton(false)}
               color="secondary"
-              variant="outlined"
+              variant={answer === false ? "outlined" : "text"}
             >
               <Typography variant="body1">No</Typography>
             </Button>
@@ -51,7 +51,7 @@ const Question: FC<Props> = ({ questionText, question, setOptions }) => {
             <Button
               onClick={() => handleButton(true)}
               color="secondary"
-              variant="outlined"
+              variant={answer === true ? "outlined" : "text"}
             >
               <Typography variant="body1">Sí</Typography>
             </Button>

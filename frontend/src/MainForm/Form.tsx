@@ -1,5 +1,5 @@
 import { Button, Grid, Typography } from "@mui/material";
-import React, { FC, useCallback, useEffect, useState } from "react";
+import React, { FC, useCallback, useState } from "react";
 import Question from "./Question";
 
 type Props = {};
@@ -19,33 +19,61 @@ type Questions = {
   question_13: boolean | null;
 };
 const Form: FC<Props> = () => {
-  const [response, setResponse] = useState<any>(null);
+  const [response, setResponse] = useState<any>("");
   const [options, setOptions] = useState<Questions>({
     question_1: false,
-    question_2: false,
-    question_3: false,
-    question_4: false,
-    question_5: false,
-    question_6: false,
-    question_7: false,
-    question_8: false,
-    question_9: false,
-    question_10: false,
-    question_11: false,
-    question_12: false,
-    question_13: false,
+    question_2: null,
+    question_3: null,
+    question_4: null,
+    question_5: null,
+    question_6: null,
+    question_7: null,
+    question_8: null,
+    question_9: null,
+    question_10: null,
+    question_11: null,
+    question_12: null,
+    question_13: null,
   });
 
   // ts-ignore
   const onSubmit = useCallback(async () => {
-    const opt = {
-      method: "POST",
-      body: JSON.stringify(options),
-    };
-    await fetch("https://bedb-201-244-32-19.ngrok.io", opt)
-      .then((res) => res.json())
-      .then((data) => setResponse(data))
-      .catch((err) => console.log(err));
+    const object_keys = Object.keys(options);
+    const temporaryObject = options;
+    if (temporaryObject.question_1 === true) {
+      object_keys.forEach((key) => {
+        // @ts-ignore
+        if (temporaryObject[key] === null) {
+          // @ts-ignore
+          temporaryObject[key] = false;
+        }
+      });
+      const opt = {
+        method: "POST",
+        body: JSON.stringify(temporaryObject),
+      };
+      await fetch("https://bedb-201-244-32-19.ngrok.io", opt)
+        .then((res) => res.json())
+        .then((data) => setResponse(data.Enfermedad))
+        .catch((err) => console.log(err));
+      setOptions({
+        question_1: null,
+        question_2: null,
+        question_3: null,
+        question_4: null,
+        question_5: null,
+        question_6: null,
+        question_7: null,
+        question_8: null,
+        question_9: null,
+        question_10: null,
+        question_11: null,
+        question_12: null,
+        question_13: null,
+      });
+    } else {
+      setResponse("No tiene nada.");
+    }
   }, [options]);
 
   return (
@@ -65,10 +93,10 @@ const Form: FC<Props> = () => {
               questionText="¿Son derivados directamente de los efectos fisiológicos de una condición médica?"
               question="question_2"
               setOptions={setOptions}
-              />
+            />
           </Grid>
         )}
-        {!options.question_2 && (
+        {options.question_2 === false && (
           <Grid item xs={12}>
             <Question
               questionText="¿Son derivados directamente de los efectos de una sustancia (medicación, drogas ilícitas, toxinas)?"
@@ -77,33 +105,34 @@ const Form: FC<Props> = () => {
             />
           </Grid>
         )}
-        {!options.question_3 && (
+        {options.question_3 === false && (
           <Grid item xs={12}>
-          <Question
-            questionText="¿Cumple con los criterios asociados a la esquizofrenia A durante un mes de funcionamiento?"
-            question="question_4"
-            setOptions={setOptions}
-          />
+            <Question
+              questionText="¿Cumple con los criterios asociados a la esquizofrenia A durante un mes de funcionamiento?"
+              question="question_4"
+              setOptions={setOptions}
+            />
           </Grid>
         )}
-        {!options.question_4 ? (
+        {options.question_4 && (
           <Grid item xs={12}>
             <Question
               questionText="¿Tiene manía o depresión mayor con psicósis?"
               question="question_7"
               setOptions={setOptions}
-              />
+            />
           </Grid>
-        ) : (
+        )}
+        {options.question_4 === false && (
           <Grid item xs={12}>
             <Question
               questionText="¿Tiene delirios comunes durante un mes?"
               question="question_5"
               setOptions={setOptions}
-              />
+            />
           </Grid>
         )}
-        {options.question_5 ? (
+        {options.question_5 === false && (
           <Grid item xs={12}>
             <Question
               questionText="¿Tiene delirios comunes más de un día y menos de un mes?"
@@ -111,7 +140,8 @@ const Form: FC<Props> = () => {
               setOptions={setOptions}
             />
           </Grid>
-        ):(
+        )}
+        {options.question_5 && (
           <Grid item xs={12}>
             <Question
               questionText="¿Presenta episodios anímicos breves comparados con los delirios?"
@@ -120,7 +150,7 @@ const Form: FC<Props> = () => {
             />
           </Grid>
         )}
-        {options.question_11 ? (
+        {options.question_11 === false && (
           <Grid item xs={12}>
             <Question
               questionText="¿Presenta delirios sólo durante la alteración del estado anímico?"
@@ -128,7 +158,8 @@ const Form: FC<Props> = () => {
               setOptions={setOptions}
             />
           </Grid>
-        ):(
+        )}
+        {options.question_11 && (
           <Grid item xs={12}>
             <Question
               questionText="¿Estos síntomas han deteriorado notablemente su funcionamiento normal?"
@@ -146,16 +177,17 @@ const Form: FC<Props> = () => {
             />
           </Grid>
         )}
-        {!options.question_7 || options.question_9 && (
-          <Grid item xs={12}>
-            <Question
-              questionText="¿Cumple con los criterios asociados a la esquizofrenia A durante seis meses de duración?"
-              question="question_8"
-              setOptions={setOptions}
-            />
-          </Grid>
-        )}
-        {!options.question_9 && (
+        {options.question_7 === false ||
+          (options.question_9 && (
+            <Grid item xs={12}>
+              <Question
+                questionText="¿Cumple con los criterios asociados a la esquizofrenia A durante seis meses de duración?"
+                question="question_8"
+                setOptions={setOptions}
+              />
+            </Grid>
+          ))}
+        {options.question_9 === false && (
           <Grid item xs={12}>
             <Question
               questionText="¿Presenta dos semanas de psicosis positiva sin problemas aníminos prominentes?"
@@ -168,9 +200,9 @@ const Form: FC<Props> = () => {
       <Button type="submit" onClick={onSubmit}>
         <Typography variant="h6">Submit</Typography>
       </Button>
-      {response !== null && (
+      {response !== "" && (
         <Grid item xs={12} mt={3}>
-          <Typography align="center">{response.Enfermedad}</Typography>
+          <Typography align="center">{response}</Typography>
         </Grid>
       )}
     </Grid>
